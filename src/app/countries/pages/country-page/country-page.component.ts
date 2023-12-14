@@ -16,21 +16,19 @@ export class CountryPageComponent implements OnInit{
 
   constructor(
 
-    private activatedRout: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private countriesService: CountriesService,
      ) {}
 
   ngOnInit(): void {
-    this.activatedRout.params
-    .pipe(
-      switchMap( ({ id }) => this.countriesService.searchCountryByAlphaCode( id ))
-    )
-    .subscribe( country => {
-      console.log({ country });
 
+    this.activatedRoute.params
+      .pipe(
+        switchMap( ({ id }) => this.countriesService.searchCountryByAlphaCode( id )),
+      )
+      .subscribe( country => {
         if ( !country ) return this.router.navigateByUrl('');
-
         return this.country = country;
     });
   }

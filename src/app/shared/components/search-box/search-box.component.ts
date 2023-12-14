@@ -8,10 +8,13 @@ import { Subject, Subscription, debounceTime } from 'rxjs';
 export class SearchBoxComponent implements OnInit, OnDestroy{
 
   private debouncer: Subject<string> = new Subject<string>();
-  private debouncerSubscription?: Subscription;
+  private debouncerSuscription?: Subscription;
 
   @Input()
   public placeholder: string = '';
+
+  @Input()
+  public initialValue: string = '';
 
   @Output()
   public onValue = new EventEmitter<string>();
@@ -20,7 +23,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy{
   public onDebounce = new EventEmitter<string>();
 
   ngOnInit(): void {
-    this.debouncerSubscription = this.debouncer
+    this.debouncerSuscription = this.debouncer
     .pipe(
       debounceTime(300)
     )
@@ -30,7 +33,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.debouncerSubscription?.unsubscribe();
+    this.debouncerSuscription?.unsubscribe();
   }
 
   emitValue( value: string ):void {
